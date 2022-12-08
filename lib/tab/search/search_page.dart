@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-
+import 'package:get/get.dart';
+import 'package:youth_ecoapp/create/create_page.dart';
 class SearchPage extends StatelessWidget {
   SearchPage({Key? key}) : super(key: key);
   final List<String> _images = [
@@ -21,7 +22,7 @@ class SearchPage extends StatelessWidget {
           itemCount: _images.length,
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 3, //열
-            mainAxisSpacing: 2,
+            mainAxisSpacing: 3,
             crossAxisSpacing: 2,
           ),
           itemBuilder: (BuildContext context, int index) {
@@ -34,7 +35,9 @@ class SearchPage extends StatelessWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+            Get.to(CreatePage());
+        },
         backgroundColor: Colors.green,
         child: Icon(Icons.create_outlined,),
       ),

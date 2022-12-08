@@ -1,7 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:animated_text_kit/animated_text_kit.dart';
+
 
 class HomePage extends StatelessWidget {
   HomePage({Key? key}) : super(key: key);
@@ -14,41 +15,46 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0.0,
-        backgroundColor: Colors.transparent,
-
-        leading: Image.asset('assets/youth1.png',),
-        title: Text('청년문간', style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold)),
-        ),
+      // appBar: AppBar(
+      //   elevation: 0.0,
+      //   backgroundColor: Colors.transparent,
+      //   leading: Image.asset('assets/youth2.png',),
+      //   ),
       body: ListView(
         children: [
           Center(
             child: Column(
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(bottom: 10, left: 1, right: 1),
+                  padding: const EdgeInsets.only(left: 1, right: 1),
                   child: Column(
                     children: [
-                      Divider(color: Colors.grey),
-                      SizedBox(
-                        width: 400,
-                        height: 300,
-                        child:
-                            Image.asset('assets/logo.jpeg', fit: BoxFit.cover, ),
+                      Row(
+                        children: [
+                          Image.asset(
+                            'assets/youth1.png',
+                            width: 100,
+                          )
+                        ],
                       ),
-                      Divider(color: Colors.grey),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(20),
+                        child: SizedBox(
+                          width: MediaQuery.of(context).size.width,
+                          height: 350,
+                          child: Image.asset(
+                            'assets/logo.jpeg',
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                      Divider(),
                       SizedBox(height: 200, child: slidePictures()),
-                      Divider(color: Colors.grey),
-                      SizedBox(height: 10),
-                      SizedBox(
-                        height: 15,
-                        child: AnimatedTextKit(
-                            repeatForever: true,
-                            animatedTexts: [FadeAnimatedText('C O N T A C T', textStyle: TextStyle(fontWeight: FontWeight.bold))]),
-                      ),
-                      SizedBox(height: 10),
+                      Divider(),
                       contactButton(),
+                      SizedBox(height: 10),
+                      Support(context),
+                      SizedBox(height: 30),
                     ],
                   ),
                 )
@@ -82,7 +88,6 @@ class HomePage extends StatelessWidget {
       }).toList(),
     );
   }
-
   Widget contactButton() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -157,6 +162,66 @@ class HomePage extends StatelessWidget {
               width: 30,
             )),
       ],
+    );
+  }
+  Widget Support(BuildContext context) {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(10),
+      child: Container(
+        width: MediaQuery.of(context).size.width ,
+        height: 100,
+        child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.lightGreen,
+            elevation: 0.0,
+          ),
+            onPressed: () async {
+              final url = Uri.parse('https://docs.google.com/forms/d/e/1FAIpQLSedNMPQIYqNBli_3HyDjocScwTaySB9f7vP9ljFtjq0LJnHAw/viewform');
+              if (await canLaunchUrl(url)) {
+                launchUrl(url);
+              } else {
+                print('Cannot launch $url');
+              }
+            },
+            child:Row(
+              children: [
+                Row(
+                  children: [
+                    Image.asset(
+                      'assets/youth2.png',
+                      width: 100,
+                    ),
+                    SizedBox(width: 15),
+                    Column(
+                      crossAxisAlignment:
+                      CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          '서포터즈 활동이 궁금하다면?',
+                          style: TextStyle(
+                              color: Colors.lightGreenAccent,
+                              fontSize: 15),
+                        ),
+                        SizedBox(height: 10),
+                        Text('참여 하러가기',
+                            style: TextStyle(
+                                fontSize: 25,
+                                color: Colors.white)),
+                      ],
+                    ),
+                    SizedBox(width:30),
+                    Icon(
+                      CupertinoIcons.arrow_right_square,
+                      color: Colors.white,
+                      size: 30,
+                    ),
+                  ],
+                )
+              ],
+            ),
+            )
+      ),
     );
   }
 }

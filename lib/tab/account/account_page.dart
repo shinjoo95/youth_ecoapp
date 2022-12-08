@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:youth_ecoapp/login/login_Page.dart';
 
 class AccountPage extends StatelessWidget {
   const AccountPage({Key? key}) : super(key: key);
@@ -12,7 +14,9 @@ class AccountPage extends StatelessWidget {
           '프로필',
         ),
         actions: [
-          IconButton(onPressed: () {}, icon: Icon(Icons.exit_to_app_outlined))
+          IconButton(onPressed: () {
+            Get.offAll(() => LoginPage());
+          }, icon: Icon(Icons.exit_to_app_outlined))
         ],
       ),
       body: Padding(
