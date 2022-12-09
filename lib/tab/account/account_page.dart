@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:youth_ecoapp/login/login_Page.dart';
+import 'package:youth_ecoapp/tab/account/account_model.dart';
 
 class AccountPage extends StatelessWidget {
   const AccountPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final model = AccountModel();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.green,
@@ -34,41 +36,16 @@ class AccountPage extends StatelessWidget {
                       height: 80,
                       child: CircleAvatar(
                         backgroundColor: Colors.lightGreen,
-                        child: Image.asset('assets/youth2.png'),
+                        backgroundImage: NetworkImage(model.getProfileImageUrl()),
                       ),
                     ),
-                    Container(
-                      width: 70,
-                      height: 70,
-                      alignment: Alignment.bottomRight,
-                      child: Stack(
-                        alignment: Alignment.center,
-                        children: [
-                          SizedBox(
-                              height: 28,
-                              width: 28,
-                              child: FloatingActionButton(
-                                onPressed: () {},
-                                backgroundColor: Colors.white,
-                              )),
-                          SizedBox(
-                              height: 25,
-                              width: 25,
-                              child: FloatingActionButton(
-                                onPressed: () {},
-                                backgroundColor: Colors.green,
-                                child: Icon(Icons.add),
-                              )),
-                        ],
-                      ),
-                    )
                   ],
                 ),
                 SizedBox(
                   height: 5,
                 ),
                 Text(
-                  '신주봉',
+                  model.getNickName(),
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
                 ),
               ],

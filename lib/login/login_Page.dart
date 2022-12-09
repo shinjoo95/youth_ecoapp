@@ -1,15 +1,33 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:youth_ecoapp/controller/auth_controller.dart';
+import 'package:youth_ecoapp/login/googleLogin_page.dart';
 import 'package:youth_ecoapp/login/signup_page.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:get/get.dart';
 
 class LoginPage extends StatelessWidget {
-  LoginPage({Key? key, this.funValidator}) : super(key: key);
+  LoginPage({Key? key}) : super(key: key);
   var emailController = TextEditingController();
   var passwordController = TextEditingController();
-  final funValidator;
+  Future<UserCredential> signInWithGoogle() async {
+    // Trigger the authentication flow
+    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+    // Obtain the auth details from the request
+    final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
+
+    // Create a new credential
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth?.accessToken,
+      idToken: googleAuth?.idToken,
+    );
+
+    // Once signed in, return the UserCredential
+    return await FirebaseAuth.instance.signInWithCredential(credential);
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,7 +56,6 @@ class LoginPage extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.only(left: 20.0),
                       child: TextFormField(
-                        validator: funValidator,
                         controller: emailController,
                         decoration: InputDecoration(
                             border: InputBorder.none, hintText: '이메일'),
@@ -97,11 +114,27 @@ class LoginPage extends StatelessWidget {
                   ),
                 ),
                 SizedBox(
-                  height: 25,
+                  height: 5,
                 ),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
+                    SizedBox(width: 30),
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.white,
+                        onPrimary: Colors.black,
+                      ),
+                      onPressed: () {
+                        signInWithGoogle();
+                      },
+                      child: Image(
+                        image: AssetImage("assets/google.png"),
+                        height: 18.0,
+                        width: 24,
+                      ),
+                    ),
+                    SizedBox(width: 60),
                     Text('회원이 아니시면?'),
                     GestureDetector(
                       onTap: () => Get.to(() => SignupPage()),
@@ -110,7 +143,8 @@ class LoginPage extends StatelessWidget {
                         style: TextStyle(
                             color: Colors.red, fontWeight: FontWeight.bold),
                       ),
-                    )
+                    ),
+                    SizedBox(width: 30)
                   ],
                 )
               ],
